@@ -21,46 +21,48 @@ void FPSLimiter::set_max_fps(float max_fps)
 
 void FPSLimiter::calc_fps()
 {
-    static const int NUM_SAMPLES = 10;
-    static float frame_times[NUM_SAMPLES];
-    static int cur_frame = 0;
+        //The number of frames to average
+        static const int NUM_SAMPLES = 10;
+        //Stores all the frametimes for each frame that we will average
+        static float frame_times[NUM_SAMPLES];
+        //The current frame we are on
+        static int current_frame = 0;
+        //the ticks of the previous frame
+        static Uint32 prev_ticks = SDL_GetTicks();
 
-    static float prev_ticks = SDL_GetTicks();
-    float cur_ticks = SDL_GetTicks();
+        //Ticks for the current frame
+        Uint32 current_ticks = SDL_GetTicks();
 
-    _frame_time = cur_ticks - prev_ticks;
-    frame_times[cur_frame % NUM_SAMPLES] = _frame_time;
-    prev_ticks = cur_ticks;
-    cur_frame++;
+        //Calculate the number of ticks (ms) for this frame
+        _frame_time = (float)(current_ticks - prev_ticks);
+        frame_times[current_frame % NUM_SAMPLES] = _frame_time;
 
-    int count;
+        //current ticks is now previous ticks
+        prev_ticks = current_ticks;
 
-    if(cur_frame < NUM_SAMPLES)
-    {
-        count = cur_frame;
-    }
-    else 
-    {
-        count = NUM_SAMPLES;
-    }
+        //The number of frames to average
+        int count;
 
-    float frame_time_average = 0;
+        current_frame++;
+        if (current_frame < NUM_SAMPLES) {
+            count = current_frame;
+        } else {
+            count = NUM_SAMPLES;
+        }
 
-    for(int i = 0; i < count; i++)
-    {
-        frame_time_average += frame_times[i];
-    }
+        //Average all the frame times
+        float frame_time_average = 0;
+        for (int i = 0; i < count; i++) {
+            frame_time_average += frame_times[i];
+        }
+        frame_time_average /= count;
 
-    frame_time_average /= count;
-
-    if(frame_time_average > 0)
-    {
-        _fps = 1000.0f / frame_time_average;
-    }
-    else 
-    {
-        _fps = 60.0f;
-    }
+        //Calculate FPS
+        if (frame_time_average > 0) {
+            _fps = 1000.0f / frame_time_average;
+        } else {
+            _fps = 60.0f;
+        }
 }
 
 void FPSLimiter::begin()

@@ -35,7 +35,7 @@ GLTexture ImageLoader::load_image(std::string file_path)
         glGenerateMipmap(GL_TEXTURE_2D);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE /*GL_REPEAT*/);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE /*GL_REPEAT*/);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         // GL_NEAREST fixes texture edge flickering!!!
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     }
@@ -113,7 +113,7 @@ GLTexture ImageLoader::load_texture_atlas(const std::vector<std::string> &textur
         uv.y = rect.y / DEST_SURFACE_LENGTH;
         uv.z = (rect.x + rect.w) / DEST_SURFACE_LENGTH;
         uv.w = (rect.y + rect.h) / DEST_SURFACE_LENGTH;
-        coords.insert(std::pair(texture.path, uv));
+        coords.insert(std::pair<std::string, glm::vec4>(texture.path, uv));
 
         SDL_Rect dest_rect = { rect.x, rect.y, texture.width, texture.height };
         int ret = SDL_BlitSurface(texture.surface, NULL, dest_surface, &dest_rect);

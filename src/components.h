@@ -10,6 +10,7 @@ struct Transform {
 struct Velocity {
     float x;
     float y;
+    float speed;
 };
 
 struct Render {

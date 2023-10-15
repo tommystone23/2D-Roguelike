@@ -16,7 +16,7 @@ OBJEXT      := o
 
 #Flags, Libraries and Includes
 CFLAGS      := -Wall
-LIB         := -lGL -lGLEW -lSDL2 -lSDL2_mixer -lfreetype -std=c++11
+LIB         := -lGL -lGLEW -lSDL2 -lSDL2_mixer -lSDL2_ttf -std=c++11
 INC         := -I$(INCDIR) -I/usr/local/include
 INCDEP      := -I$(INCDIR)
 

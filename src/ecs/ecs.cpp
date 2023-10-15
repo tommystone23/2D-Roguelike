@@ -1,6 +1,7 @@
 #include "ecs.h"
 #include "system.h"
 #include <functional>
+#include <utility>
 
 ECS::ECS()
 {}
@@ -27,7 +28,7 @@ entity_id ECS::create_entity()
 {
     Entity *entity = new Entity(_id_pool++, this);
     entity_id id = entity->get_id();
-    _entities.insert(std::pair(id, entity));
+    _entities.insert(std::pair<entity_id, Entity*>(id, entity));
 
     return id;
 }

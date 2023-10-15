@@ -60,7 +60,7 @@ int Window::create(std::string window_name, int screen_width, int screen_height,
     glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
     // Turn Vsync on
-    SDL_GL_SetSwapInterval(1);
+    SDL_GL_SetSwapInterval(0);
 
     // Print OpenGL Version
     printf("*** OpenGL Version: %s ***\n", glGetString(GL_VERSION));

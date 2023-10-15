@@ -78,10 +78,6 @@ void RenderSystem::batch_data(SpriteBatch *batch, component_grouping_t *grouping
         Render *render = (Render*)render_buffer;
         Transform *transform = (Transform*)transform_buffer;
 
-        if(bytes_read == 0) {
-            //_camera->set_position(glm::vec2(transform->x, transform->y));
-        }
-
         glm::vec4 dest_rect(transform->x, transform->y,
                             transform->w, transform->h);
         glm::vec4 uv_rect(render->x, render->y,

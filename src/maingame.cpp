@@ -56,6 +56,7 @@ void MainGame::game_loop()
 
     float previous_ticks = SDL_GetTicks64();
 
+    Uint64 time_taken;
     while(_is_running)
     {
         float new_ticks = SDL_GetTicks64();
@@ -73,15 +74,15 @@ void MainGame::game_loop()
             on steps so changes in FPS will not affect collision and other physics.
         */
         int i = 0;
-        while(total_delta_time > 0.0f  && i++ < MAX_PHYSICS_STEPS) {
+        while(total_delta_time > 0.0f && i++ < MAX_PHYSICS_STEPS) {
             float delta_time = std::min(total_delta_time, MAX_DELTA_TIME);
             _current_screen->update(delta_time);
             total_delta_time -= delta_time;
         }
 
-        _fps = fps.end();
-
         _current_screen->draw();
+
+        _fps = fps.end();
     }
 }
 

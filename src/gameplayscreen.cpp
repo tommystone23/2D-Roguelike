@@ -43,19 +43,21 @@ void GameplayScreen::destroy()
 void GameplayScreen::on_entry()
 {
     _texture = ImageLoader::load_image("textures/0x72_DungeonTilesetII_v1.6/0x72_DungeonTilesetII_v1.6.png");
-    glm::vec4 uv = ImageLoader::texture_coords_to_uv(glm::vec4(128.0f, 100.0f, 16.0f, 28.0f), 
+    glm::vec4 uv = ImageLoader::texture_coords_to_uv(glm::vec4(128.0f, 292.0f, 16.0f, 28.0f), 
                                                             _texture.width, 
                                                             _texture.height,
-                                                            true);
+                                                            true);                                                   
 
     std::mt19937 random_engine(time(nullptr));
     for(int i = 0; i < 10000; i++) {
         std::uniform_real_distribution<float> rand_angle(-1.0f, 1.0f);
+        std::uniform_real_distribution<float> rand_speed(0.0f, 1.0f);
         float velocity_x = rand_angle(random_engine);
         float velocity_y = rand_angle(random_engine);
+        float speed = rand_speed(random_engine);
         entity_id id = _ecs->create_entity();
-        _ecs->add_component<Transform>(id, { 0.0f, 0.0f, ENTITY_WIDTH, ENTITY_HEIGHT });
-        _ecs->add_component<Velocity>(id, { velocity_x, velocity_y });
+        _ecs->add_component<Transform>(id, { 0.0f, 0.0f, ENTITY_WIDTH+1, ENTITY_HEIGHT+1 });
+        _ecs->add_component<Velocity>(id, { velocity_x, velocity_y, speed });
         _ecs->add_component<Render>(id, { _texture.id, uv.x, uv.y, uv.z, uv.w });
         _ecs->commit_components(id);
     }
@@ -76,5 +78,5 @@ void GameplayScreen::update(float delta_time)
 }
 
 void GameplayScreen::draw()
-{   
+{
 }

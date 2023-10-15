@@ -1,5 +1,6 @@
 #include "movementsystem.h"
 #include "../components.h"
+#include <glm/glm.hpp>
 
 MovementSystem::MovementSystem(ECS *ecs)
     : System(ecs)
@@ -41,9 +42,13 @@ void MovementSystem::do_movement(component_grouping_t *grouping, float delta_tim
     while(bytes_read < transform_header->bytes_written) {
         Transform *transform = (Transform*)transform_buffer;
         Velocity *velocity = (Velocity*)velocity_buffer;
+        glm::vec2 glm_vel(velocity->x, velocity->y);
+        glm_vel = glm::normalize(glm_vel);
+        velocity->x = glm_vel.x;
+        velocity->y = glm_vel.y;
 
-        transform->x += velocity->x * delta_time;
-        transform->y += velocity->y * delta_time;
+        transform->x += (velocity->x * velocity->speed) * delta_time;
+        transform->y += (velocity->y * velocity->speed) * delta_time;
 
         bytes_read += sizeof(Transform);
         transform_buffer += sizeof(Transform);

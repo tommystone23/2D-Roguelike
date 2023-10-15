@@ -4,9 +4,7 @@
 #include <glm/glm.hpp>
 #include <map>
 #include "Vertex.h"
-
-#include <ft2build.h>
-#include FT_FREETYPE_H 
+#include <SDL2/SDL_ttf.h>
 
 class SpriteBatch;
 
@@ -24,7 +22,7 @@ public:
 
     void init(const char* font, int size);
 
-    void draw(SpriteBatch& batch, const char* s, glm::vec2 position, glm::vec2 scaling, 
+    void draw(SpriteBatch *batch, const char* s, glm::vec2 position, glm::vec2 scaling, 
             float depth, Color tint);
 
 private:

@@ -11,6 +11,7 @@
 #include "helper.h"
 #include <string.h>
 #include "threadpool.h"
+#include <SDL2/SDL.h>
 
 using entity_id = uint32_t;
 
