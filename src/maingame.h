@@ -15,6 +15,12 @@ public:
 
     void run();
 
+    // getters
+    Window* get_window() { return &_window; }
+    Camera2D* get_camera() { return &_camera; }
+    InputManager* get_input_manager() { return &_input_manager; }
+    float get_fps() { return _fps; }
+
 private:
     bool _is_running;
     Window _window;

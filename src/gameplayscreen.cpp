@@ -8,14 +8,13 @@
 #include "systems/rendersystem.h"
 #include <ctime>
 #include <random>
+#include "maingame.h"
 
 const static float ENTITY_WIDTH = 16.0f;
 const static float ENTITY_HEIGHT = 28.0f;
 
-GameplayScreen::GameplayScreen(Window *window, Camera2D *camera, InputManager *input_man)
-    : _window(window),
-    _camera(camera),
-    _input_manager(input_man)
+GameplayScreen::GameplayScreen(MainGame *game)
+    : _game(game)
 {
 }
 
@@ -56,7 +55,7 @@ void GameplayScreen::on_entry()
         float velocity_y = rand_angle(random_engine);
         float speed = rand_speed(random_engine);
         entity_id id = _ecs->create_entity();
-        _ecs->add_component<Transform>(id, { 0.0f, 0.0f, ENTITY_WIDTH+1, ENTITY_HEIGHT+1 });
+        _ecs->add_component<Transform>(id, { 0.0f, 0.0f, ENTITY_WIDTH, ENTITY_HEIGHT });
         _ecs->add_component<Velocity>(id, { velocity_x, velocity_y, speed });
         _ecs->add_component<Render>(id, { _texture.id, uv.x, uv.y, uv.z, uv.w });
         _ecs->commit_components(id);
@@ -64,8 +63,8 @@ void GameplayScreen::on_entry()
 
     System *movement_system = new MovementSystem(_ecs);
     _ecs->register_system(movement_system, 0);
-    System *render_system = new RenderSystem(_camera, _window, _ecs);
-    _ecs->register_system(render_system, 1);
+    _render_system = new RenderSystem(_game, _ecs);
+    //_ecs->register_system(render_system, 1);
 }
 
 void GameplayScreen::on_exit()
@@ -79,4 +78,5 @@ void GameplayScreen::update(float delta_time)
 
 void GameplayScreen::draw()
 {
+    _render_system->run_system(1.0f);
 }

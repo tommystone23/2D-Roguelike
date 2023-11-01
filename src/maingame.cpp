@@ -33,11 +33,12 @@ void MainGame::init()
     _camera.set_scale(1.0f);
 
     // Add screens
-    IGameScreen *game_screen = new GameplayScreen(&_window, &_camera, &_input_manager);
+    IGameScreen *game_screen = new GameplayScreen(this);
     _screens->add_screen(game_screen);
     _screens->set_screen(game_screen->get_screen_index());
     
     _current_screen = _screens->get_current_screen();
+    _current_screen->set_parent_game(this);
     _current_screen->on_entry();
 }
 
@@ -56,7 +57,6 @@ void MainGame::game_loop()
 
     float previous_ticks = SDL_GetTicks64();
 
-    Uint64 time_taken;
     while(_is_running)
     {
         float new_ticks = SDL_GetTicks64();

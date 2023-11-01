@@ -4,14 +4,10 @@
 #include "utils/GLTexture.h"
 #include "ecs/ecs.h"
 
-class Window;
-class Camera2D;
-class InputManager;
-
 class GameplayScreen : public IGameScreen
 {
 public:
-    GameplayScreen(Window *window, Camera2D *camera, InputManager *input_man);
+    GameplayScreen(MainGame *game);
     ~GameplayScreen() {}
 
     virtual int get_next_screen_index() const override;
@@ -31,9 +27,8 @@ public:
 
 private:
     ECS *_ecs;
-    Window *_window;
-    Camera2D *_camera;
-    InputManager *_input_manager;
+    MainGame *_game;
+    System *_render_system;
 
     GLTexture _texture;
 };

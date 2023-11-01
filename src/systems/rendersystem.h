@@ -6,11 +6,13 @@
 #include "../utils/GLSLProgram.h"
 #include "../utils/Camera2D.h"
 #include "../utils/Window.h"
+#include "../utils/SpriteFont.h"
+#include "../maingame.h"
 
 class RenderSystem : public System
 {
 public:
-    RenderSystem(Camera2D *camera, Window *window, ECS *ecs);
+    RenderSystem(MainGame *game, ECS *ecs);
     virtual ~RenderSystem() { 
             delete _batch;
             delete _program; 
@@ -21,10 +23,11 @@ public:
 private:
     SpriteBatch *_batch;
     GLSLProgram *_program;
-    Camera2D *_camera;
-    Window *_window;
+    SpriteFont *_sprite_font;
+    MainGame *_game;
 
     void batch_data(SpriteBatch *batch, component_grouping_t *grouping);
+    void render_hud(SpriteBatch *batch);
 
     unsigned char* get_render_buffer(component_grouping_t *grouping);
     unsigned char* get_transform_buffer(component_grouping_t *grouping);
